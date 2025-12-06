@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load roles %}
+
+{% block title %}Домашні завдання{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h2>Домашні завдання</h2>
+
+  {% if has_role 'teacher' %}
+    <a class="btn btn-primary" href="{% url 'homework_create' %}">+ Додати ДЗ</a>
+  {% endif %}
+</div>
+
+{% if homework_list %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Назва</th>
+          <th>Предмет</th>
+          <th>Клас</th>
+          <th>Дедлайн</th>
+          <th>Опис (коротко)</th>
+          {% if has_role 'teacher' %}<th class="actions">Дії</th>{% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for hw in homework_list %}
+          <tr>
+            <td>
+              <a href="{% url 'homework_detail' hw.id %}"><b>{{ hw.title }}</b></a>
+              {% if hw.id in done_ids %}
+                <span class="tag" style="background:#4caf50;color:white;padding:2px 6px;border-radius:4px;font-size:0.8rem;">виконано</span>
+              {% endif %}
+            </td>
+            <td>{{ hw.subject.title }}</td>
+            <td>{{ hw.classroom.name }}</td>
+            <td>
+              {% if hw.deadline %}
+                {{ hw.deadline|date:"d.m.Y" }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>{{ hw.text|default:hw.description|default_if_none:""|truncatechars:100 }}</td>
+
+            {% if has_role 'teacher' %}
+              <td class="actions">
+                <a class="btn btn-sm" href="{% url 'homework_update' hw.id %}">Редагувати</a>
+                <a class="btn btn-sm btn-danger" href="{% url 'homework_delete' hw.id %}">Видалити</a>
+              </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p>Поки що немає завдань.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Мій журнал{% endblock %}
+{% block content %}
+<h2>Мій журнал</h2>
+
+<form method="get" class="filters">
+  Від: <input type="date" name="from" value="{{ date_from }}">
+  До:  <input type="date" name="to"   value="{{ date_to }}">
+  <button type="submit">Фільтрувати</button>
+</form>
+
+{% if grades %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Дата</th>
+          <th>Предмет</th>
+          <th>Оцінка</th>
+          <th>Коментар</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for g in grades %}
+          <tr>
+            <td>{{ g.created_at|date:"d.m.Y H:i" }}</td>
+            <td>{{ g.subject.title }}</td>
+            <td><b>{{ g.value }}</b></td>
+            <td>{{ g.comment|default:"—" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p>Поки що оцінок немає.</p>
+{% endif %}
+{% endblock %}

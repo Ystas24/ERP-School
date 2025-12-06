@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% load roles %}
+
+{% block title %}Домашнє завдання — {{ homework.title }}{% endblock %}
+
+{% block content %}
+<nav class="breadcrumbs">
+  <a href="{% url 'home' %}">Головна</a> /
+  <a href="{% url 'homework_list' %}">Домашні завдання</a> /
+  <span>{{ homework.title }}</span>
+</nav>
+
+<h1>{{ homework.title }}</h1>
+
+<div class="hw-meta">
+  <p><b>Предмет:</b> {{ homework.subject.title }}</p>
+  <p><b>Клас:</b> {{ homework.classroom.name }}</p>
+  <p><b>Вчитель:</b> {{ homework.teacher }}</p>
+  <p><b>Дедлайн:</b>
+    {% if homework.deadline %}{{ homework.deadline|date:"d.m.Y" }}{% else %}—{% endif %}
+  </p>
+  <p><b>Створено:</b> {{ homework.created|date:"d.m.Y H:i" }}</p>
+</div>
+
+<hr>
+
+<div class="hw-text">
+  <h3>Опис</h3>
+  <p style="white-space: pre-wrap;">{{ homework.text }}</p>
+</div>
+
+<hr>
+
+<div class="hw-actions" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+  {% if has_role 'teacher' %}
+    <a class="btn btn-sm" href="{% url 'homework_update' homework.id %}">Редагувати</a>
+    <a class="btn btn-sm btn-danger" href="{% url 'homework_delete' homework.id %}">Видалити</a>
+  {% endif %}
+
+  {% if user.is_authenticated and not has_role 'teacher' %}
+    {% if is_done %}
+      <form method="post" action="{% url 'homework_toggle_done' homework.id %}">
+        {% csrf_token %}
+        <button class="btn btn-sm" type="submit">Позначити як НЕ виконано</button>
+      </form>
+      <span class="tag">Виконано</span>
+    {% else %}
+      <form method="post" action="{% url 'homework_toggle_done' homework.id %}">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-primary" type="submit">Позначити як виконано</button>
+      </form>
+    {% endif %}
+  {% endif %}
+</div>
+
+<p style="margin-top:16px;">
+  <a href="{% url 'homework_list' %}">← Повернутися до списку</a>
+</p>
+{% endblock %}

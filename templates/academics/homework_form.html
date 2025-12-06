@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Нове домашнє завдання</h2>
+
+<form method="post">
+  {% csrf_token %}
+
+  <label>Назва*</label><br>
+  <input type="text" name="title" required><br><br>
+
+  <label>Предмет*</label><br>
+  <select name="subject" required>
+    <option value="" selected disabled>— оберіть —</option>
+    {% for s in subjects %}
+      <option value="{{ s.id }}">{{ s.title }}</option>
+    {% endfor %}
+  </select><br><br>
+
+  <label>Клас*</label><br>
+  <select name="classroom" required>
+    <option value="" selected disabled>— оберіть —</option>
+    {% for c in classrooms %}
+      <option value="{{ c.id }}">{{ c.name }}</option>
+    {% endfor %}
+  </select><br><br>
+
+  <label>Термін (deadline)</label><br>
+  <input type="date" name="deadline"><br><br>
+
+  <label>Опис*</label><br>
+  <textarea name="text" rows="6" required></textarea><br><br>
+
+  <button type="submit">Зберегти</button>
+  <a href="{% url 'homework_list' %}">Скасувати</a>
+</form>
+{% endblock %}

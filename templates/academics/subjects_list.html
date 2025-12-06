@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Предмети{% endblock %}
+{% block content %}
+<h2>Предмети</h2>
+
+<table class="table">
+  <thead>
+    <tr><th>Назва</th><th>Кількість занять (цього тижня)</th><th>Період</th></tr>
+  </thead>
+  <tbody>
+    {% for s in subjects %}
+      <tr>
+        <td>{{ s.obj.title }}</td>
+        <td>{{ s.weekly_count }}</td>
+        <td>
+          {% if s.weekly_count %}
+            {{ s.first_day }} – {{ s.last_day }}
+          {% else %}
+            —
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

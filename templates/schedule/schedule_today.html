@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Розклад на сьогодні{% endblock %}
+{% block content %}
+<h1>Розклад на {{ today }}</h1>
+{% if items %}
+  <div class="card">
+    <table>
+      <thead><tr><th>Час</th><th>Клас</th><th>Предмет</th><th>Вчитель</th><th>Каб.</th></tr></thead>
+      <tbody>
+      {% for it in items %}
+        <tr>
+          <td>{{ it.start_time }}–{{ it.end_time }}</td>
+          <td>{{ it.classroom.name }}</td>
+          <td>{{ it.subject.title }}</td>
+          <td>{{ it.teacher.user.get_full_name|default:it.teacher.user.username }}</td>
+          <td>{{ it.classroom_location }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p class="muted">Сьогодні занять не знайдено.</p>
+{% endif %}
+{% endblock %}

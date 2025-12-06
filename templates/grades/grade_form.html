@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Нова оцінка{% endblock %}
+{% block content %}
+<h2>Нова оцінка</h2>
+
+<form method="post" class="form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Зберегти</button>
+  <a href="{% url 'my_journal' %}">Скасувати</a>
+</form>
+{% endblock %}

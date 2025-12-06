@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Домашні завдання{% endblock %}
+{% block content %}
+<h1>Домашні завдання</h1>
+{% if items %}
+  {% for hw in items %}
+    <div class="card">
+      <div><b>{{ hw.title }}</b> — {{ hw.subject.title }}</div>
+      <div class="muted">Клас: {{ hw.classroom.name }} • Вчитель: {{ hw.teacher.user.get_full_name|default:hw.teacher.user.username }}</div>
+      {% if hw.deadline %}<div>Дедлайн: {{ hw.deadline }}</div>{% endif %}
+      <p>{{ hw.text }}</p>
+    </div>
+  {% endfor %}
+{% else %}
+  <p class="muted">Немає завдань.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Моя відвідуваність{% endblock %}
+{% block content %}
+
+<h2>Моя відвідуваність</h2>
+
+<form method="get" class="card">
+  <label>Місяць
+    <input type="month" name="month" value="{{ request.GET.month }}">
+  </label>
+  <button class="btn">Фільтрувати</button>
+</form>
+
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Дата</th>
+        <th>№</th>
+        <th>Предмет</th>
+        <th>Клас</th>
+        <th>Статус</th>
+        <th>Коментар</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in records %}
+      <tr>
+        <td>{{ r.date|date:"d.m.Y" }}</td>
+        <td>{{ r.lesson_number|default:"—" }}</td>
+        <td>{{ r.subject.title|default:"—" }}</td>
+        <td>{{ r.classroom.name|default:"—" }}</td>
+        <td>
+          {% if r.status == "present" %}Присутній
+          {% elif r.status == "absent" %}Відсутній
+          {% elif r.status == "late" %}Запізнився
+          {% elif r.status == "excused" %}Поважна причина
+          {% endif %}
+        </td>
+        <td>{{ r.comment }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">Немає записів.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

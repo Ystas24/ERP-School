@@ -1,0 +1,10 @@
+from django.urls import path
+from core_dashboard import views as v
+
+urlpatterns = [
+    path("homework/", v.homework_list, name="homework_list"),
+    path("homework/create/", v.homework_create, name="homework_create"),
+    path("homework/<int:pk>/", v.homework_detail, name="homework_detail"),
+    path("homework/<int:pk>/edit/", v.homework_update, name="homework_update"),
+    path("homework/<int:pk>/delete/", v.homework_delete, name="homework_delete"),
+]

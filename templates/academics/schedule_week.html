@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Розклад (тиждень){% endblock %}
+{% block content %}
+<h2>Розклад на тиждень: {{ week_start }} – {{ week_end }}</h2>
+
+{% if days %}
+  {% for d, items in days.items %}
+    <h3>{{ d }}</h3>
+    <table class="table">
+      <thead>
+        <tr><th>Час</th><th>Предмет</th><th>Клас</th><th>Вчитель</th></tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+          <tr>
+            <td>{{ it.start_time }}–{{ it.end_time }}</td>
+            <td>{{ it.subject.title }}</td>
+            <td>{{ it.classroom }}</td>
+            <td>{{ it.teacher }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+{% else %}
+  <p>За цей тиждень записів немає.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Профіль{% endblock %}
+
+{% block content %}
+<h2>Профіль користувача</h2>
+
+<p><b>Логін:</b> {{ request.user.username }}</p>
+<p><b>Email:</b> {{ request.user.email }}</p>
+
+{% if student %}
+  <h3>Учень</h3>
+  <p><b>Клас:</b> {{ student.classroom }}</p>
+{% endif %}
+
+{% if teacher %}
+  <h3>Вчитель</h3>
+  <p><b>ПІБ:</b> {{ teacher }}</p>
+{% endif %}
+
+{% if parent %}
+  <h3>Батько/Мати</h3>
+  <p><b>Профіль:</b> {{ parent }}</p>
+{% endif %}
+{% endblock %}

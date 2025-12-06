@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Головна{% endblock %}
+
+{% block content %}
+<h1>Головна</h1>
+
+<p class="muted">Ласкаво просимо! Вгорі навігація на “Розклад (сьогодні)” та “Домашні завдання”.</p>
+
+<div class="cards-grid">
+
+  <div class="card">
+    <h3>Розклад на сьогодні ({{ today }})</h3>
+    {% if today_schedule %}
+      <ul>
+        {% for item in today_schedule %}
+          <li>
+            {{ item.start_time }}–{{ item.end_time }} —
+            <b>{{ item.subject.title }}</b>
+            ({{ item.classroom }}) — {{ item.teacher }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>На сьогодні занять немає.</p>
+    {% endif %}
+    <p><a href="{% url 'schedule_today' %}">Весь розклад на сьогодні</a></p>
+  </div>
+
+  <div class="card">
+    <h3>Найближчі дедлайни ДЗ</h3>
+    {% if upcoming_homework %}
+      <ul>
+        {% for hw in upcoming_homework %}
+          <li><b>{{ hw.title }}</b> — {{ hw.subject.title }} (до {{ hw.deadline|default:"—" }})</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Дедлайнів не знайдено.</p>
+    {% endif %}
+    <p><a href="{% url 'homework_list' %}">Усі домашні завдання</a></p>
+  </div>
+
+  <div class="card">
+    <h3>Останні оцінки</h3>
+    {% if recent_grades %}
+      <ul>
+        {% for g in recent_grades %}
+          <li>
+            {% if g.student %}{{ g.student }} — {% endif %}
+            <b>{{ g.subject.title }}</b>: {{ g.value }} {{ g.created_at|date:"Y-m-d H:i" }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Поки що оцінок немає.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h3>Події</h3>
+    {% if upcoming_events %}
+      <ul>
+        {% for e in upcoming_events %}
+          <li>
+            {{ e.date }} — <b>{{ e.title }}</b>
+            {% if e.important %} <span class="tag">важливо</span>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Найближчих подій немає.</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

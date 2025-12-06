@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Середній бал{% endblock %}
+{% block content %}
+<h2>Середній бал по предметах</h2>
+
+<form method="get" class="filters">
+  Від: <input type="date" name="from" value="{{ date_from }}">
+  До:  <input type="date" name="to"   value="{{ date_to }}">
+  <button type="submit">Фільтрувати</button>
+</form>
+
+{% if summary %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Предмет</th>
+          <th>Середній бал</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in summary %}
+          <tr>
+            <td>{{ row.subject__title }}</td>
+            <td>{{ row.avg|floatformat:2 }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p>Немає даних за обраний період.</p>
+{% endif %}
+{% endblock %}

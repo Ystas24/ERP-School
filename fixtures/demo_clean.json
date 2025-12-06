@@ -1,0 +1,17 @@
+[
+  {"model":"auth.user","pk":2,"fields":{"username":"teacher1","password":"pbkdf2_sha256$600000$seed$M8hHk8g2vYcJp4R1p9m9yS2mIYkzj7Kx1s2J7m3E8WQ=","is_active":true,"is_staff":true,"is_superuser":false}},
+  {"model":"auth.user","pk":3,"fields":{"username":"student1","password":"pbkdf2_sha256$600000$seed$M8hHk8g2vYcJp4R1p9m9yS2mIYkzj7Kx1s2J7m3E8WQ=","is_active":true}},
+  {"model":"users.classroom","pk":1,"fields":{"name":"10-А"}},
+  {"model":"users.teacherprofile","pk":1,"fields":{"user":2}},
+  {"model":"users.studentprofile","pk":1,"fields":{"user":3,"classroom":1}},
+
+  {"model":"academics.subject","pk":1,"fields":{"title":"Математика","description":"Алгебра і геометрія","teacher":1}},
+  {"model":"academics.scheduleitem","pk":1,"fields":{
+    "day":"2025-11-02","start_time":"09:00:00","end_time":"09:45:00",
+    "subject":1,"teacher":1,"classroom":1,"classroom_location":"Каб. 201"
+  }},
+  {"model":"academics.homework","pk":1,"fields":{
+    "title":"Вправи 1–5","text":"Виконати №1–5 з підручника, стор. 27",
+    "subject":1,"teacher":1,"classroom":1,"deadline":"2025-11-05","created":"2025-11-01T12:00:00Z"
+  }}
+]
